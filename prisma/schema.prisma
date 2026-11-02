@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  company   String?
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  devices  Device[]
+  agents   Agent[]
+  policies Policy[]
+  alerts   Alert[]
+}
+
+model Device {
+  id          String   @id @default(cuid())
+  name        String
+  hostname    String?
+  os          String   // Windows, macOS, Linux
+  status      String   @default("online") // online, offline, warning
+  lastSeen    DateTime @default(now())
+  ipAddress   String?
+  agentCount  Int      @default(0)
+  riskScore   Int      @default(0)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  agents Agent[]
+  mcps   Mcp[]
+}
+
+model Agent {
+  id           String   @id @default(cuid())
+  name         String   // ChatGPT, Claude, Cursor, etc.
+  type         String   // desktop, browser, cli, ide
+  version      String?
+  status       String   @default("active") // active, blocked, warning
+  riskLevel    String   @default("low") // low, medium, high
+  riskScore    Int      @default(0)
+  lastActive   DateTime @default(now())
+  tokenUsage   Int      @default(0)
+  deviceId     String?
+  device       Device?  @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  mcps Mcp[]
+}
+
+model Mcp {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  status      String   @default("active") // active, quarantined, blocked
+  riskLevel   String   @default("low")
+  riskScore   Int      @default(0)
+  permissions String[] // read, write, delete, etc.
+  source      String?  // local, remote
+  agentId     String?
+  agent       Agent?   @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  deviceId    String?
+  device      Device?  @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  severity    String   // low, medium, high, critical
+  status      String   @default("open") // open, acknowledged, resolved
+  source      String?  // agent name or mcp name
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Policy {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  action      String   // block, warn, allow
+  target      String   // agent, mcp, action
+  condition   String?  // e.g. "riskScore > 70"
+  enabled     Boolean  @default(true)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

@@ -1,0 +1,60 @@
+/* TraceAgentriX Design Tokens */
+
+:root {
+  /* Backgrounds */
+  --bg-deep: #06080F;
+  --bg-surface: #0C101B;
+  --bg-elevated: #121826;
+  --bg-hover: #1A2236;
+
+  /* Accents */
+  --accent-cyan: #22D3EE;
+  --accent-teal: #14B8A6;
+  --accent-blue: #3B82F6;
+  --glow-cyan: rgba(34, 211, 238, 0.15);
+
+  /* Semantic */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --muted: #64748B;
+
+  /* Text */
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+
+  /* Borders */
+  --border-subtle: rgba(148, 163, 184, 0.12);
+  --border-accent: rgba(34, 211, 238, 0.35);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(34, 211, 238, 0.15);
+  --shadow-glow-strong: 0 0 30px rgba(34, 211, 238, 0.25);
+}
+
+.glow-cyan {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-cyan-strong {
+  box-shadow: var(--shadow-glow-strong);
+}
+
+.border-glow {
+  border: 1px solid var(--border-accent);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #22D3EE, #14B8A6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

@@ -6,7 +6,7 @@
 
 - Pages → `src/app/(dashboard)/...` and `src/app/(auth)/...`
 - APIs → `src/app/api/...` (Route Handlers)
-- Database → Prisma + PostgreSQL
+- Database → MongoDB + Mongoose
 - Auth → JWT based
 
 ---
@@ -50,7 +50,7 @@ src/
 │   └── auth/                       # LoginForm, RegisterForm
 │
 ├── lib/
-│   ├── prisma.ts
+│   ├── mongodb.ts
 │   ├── auth.ts                     # JWT helpers
 │   └── utils.ts
 │
@@ -83,6 +83,6 @@ src/
 1. Initialize Next.js project (package.json, configs)
 2. Design tokens + Tailwind setup
 3. Core UI components
-4. Prisma schema
+4. Mongoose models
 5. Auth API + pages
 6. Dashboard layout + pages

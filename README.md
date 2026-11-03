@@ -39,12 +39,11 @@ traceagentrix/
 │   │   ├── dashboard/
 │   │   ├── landing/
 │   │   └── auth/
-│   ├── lib/                        # prisma, auth helpers, utils
+│   ├── lib/                        # mongodb connection, auth helpers, utils
+│   ├── models/                     # Mongoose models
 │   ├── hooks/
 │   ├── types/
 │   └── styles/
-├── prisma/
-│   └── schema.prisma
 ├── public/
 └── docs/
 ```
@@ -59,7 +58,7 @@ traceagentrix/
 | Language    | TypeScript                                      |
 | Styling     | Tailwind CSS + Custom Design System             |
 | Animations  | Framer Motion                                   |
-| Database    | PostgreSQL + Prisma                             |
+| Database    | MongoDB + Mongoose                              |
 | Auth        | JWT (Email + Password)                          |
 | API         | Next.js Route Handlers (`/api/...`)             |
 

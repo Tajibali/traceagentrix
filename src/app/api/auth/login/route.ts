@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
+import { connectDB } from "@/lib/mongodb";
+import User from "@/models/User";
 import { verifyPassword, createToken, setAuthCookie } from "@/lib/auth";
 
 const schema = z.object({
@@ -13,9 +14,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = schema.parse(body);
 
-    const user = await prisma.user.findUnique({
-      where: { email: data.email.toLowerCase() },
-    });
+    await connectDB();
+
+    const user = await User.findOne({ email: data.email.toLowerCase() });
 
     if (!user) {
       return NextResponse.json(
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     }
 
     const token = await createToken({
-      userId: user.id,
+      userId: user._id.toString(),
       email: user.email,
       name: user.name,
     });
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       user: {
-        id: user.id,
+        id: user._id.toString(),
         email: user.email,
         name: user.name,
         company: user.company,

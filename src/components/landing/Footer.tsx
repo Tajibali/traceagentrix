@@ -50,7 +50,8 @@ const footerCols =
     }))
     : fallbackCols;
 
-export function Footer() {
+export function Footer({ cta = true }: { cta?: boolean }) {
+  void cta;
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -62,7 +63,10 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden bg-[#050B24] text-slate-300">
+    <footer
+      id="footer"
+      className="relative overflow-hidden bg-[#050B24] text-slate-300"
+    >
       {/* Top Glowing Gradient Border */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-indigo-500/60 to-transparent" />
 
